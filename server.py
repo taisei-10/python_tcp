@@ -28,10 +28,11 @@ def listen_TCP(ip_address: str, port: int, limit_num_client: int):
             send_data = "receved msg :{}".format(recv_data_str)
             send_data_byte = send_data.encode()
             conn.send(send_data_byte)
+            conn.close()
+
     except KeyboardInterrupt:
-        conn.close()
-        tcp_server.close()
-        print("Connection closed")
+            tcp_server.close()
+            print("Closed a TCP Server")
 
 host = "localhost"
 limit_num_client = 5
