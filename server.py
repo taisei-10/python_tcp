@@ -12,20 +12,26 @@ def listen_TCP(ip_address: str, port: int, limit_num_client: int):
     # 接続待ち
     tcp_server.listen()
 
-    # 接続する
-    conn, address = tcp_server.accept()
-    print("[*] Connected!! [ Source : {}]".format(address))
+    try:
+        while True:
+            # 接続待ちする
+            conn, address = tcp_server.accept()
+            print("[*] Connected!! [ Source : {}]".format(address))
 
-    # msgの受信を行う
-    buf_size = 1024
-    recv_data = conn.recv(buf_size)
-    recv_data_str = recv_data.decode()
-    print("[*] Received Data : {}".format(recv_data_str))
+            # msgの受信を行う
+            buf_size = 1024
+            recv_data = conn.recv(buf_size)
+            recv_data_str = recv_data.decode()
+            print("[*] Received Data : {}".format(recv_data_str))
 
-    # 受信確認の返信
-    send_data = "receved msg :{}".format(recv_data_str)
-    send_data_byte = send_data.encode()
-    conn.send(send_data_byte)
+            # 受信確認の返信
+            send_data = "receved msg :{}".format(recv_data_str)
+            send_data_byte = send_data.encode()
+            conn.send(send_data_byte)
+    except KeyboardInterrupt:
+        conn.close()
+        tcp_server.close()
+        print("Connection closed")
 
 host = "localhost"
 limit_num_client = 5
