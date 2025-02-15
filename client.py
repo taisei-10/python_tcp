@@ -12,8 +12,10 @@ def send_tcp(target_ip:str, target_port:int, send_datas: dict):
     print("connect!")
 
     # TCPサーバにデータを送信
+    delimiter="/"
     for send_data in send_datas.values():
-        tcp_client.send(send_data)
+        print(send_data)
+        tcp_client.send(send_data+delimiter.encode())
 
     # TCPサーバからのレスポンスを受信
     buffer_size = 1024
