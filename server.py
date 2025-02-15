@@ -1,6 +1,12 @@
 import socket
 import sys
 
+def w_json_to_file(filepath: str, recv_data: str):
+     with open(filepath,"w") as o:
+          w_datas = recv_data.split("/")
+          for w_data in w_datas:
+               print(w_data,file=o)
+
 def listen_TCP(ip_address: str, port: int, limit_num_client: int):
     
     # ソケット作成　socket.AF_INET=IPv4, socket.SOCK_STREAM=TCP
@@ -23,6 +29,10 @@ def listen_TCP(ip_address: str, port: int, limit_num_client: int):
             recv_data = conn.recv(buf_size)
             recv_data_str = recv_data.decode()
             print("[*] Received Data : {}".format(recv_data_str))
+
+            # 受信データをfileへ吐き出し
+            file_path="recv_data.txt"
+            w_json_to_file(file_path,recv_data_str)
 
             # 受信確認の返信
             send_data = "receved msg :{}".format(recv_data_str)
